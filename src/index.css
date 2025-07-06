@@ -290,8 +290,13 @@ button:focus-visible {
   display: flex;
   flex-direction: row;
   gap: 1.2rem;
-  margin-top: auto;
+  margin-top: 2.5rem;
   margin-bottom: 1.5rem;
+}
+
+.standort-btn-small {
+  padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 900px) {

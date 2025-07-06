@@ -1,7 +1,6 @@
 import './App.css';
 import logo from './assets/logo.png';
 import arztBild from './assets/Arzt Bild von Usman Yousaf.jpg';
-import React from 'react';
 
 function App() {
   const scrollToSection = (id: string) => {
@@ -100,22 +99,13 @@ function App() {
             <div className='standort-doctor'>Dr. med. Assad Al Kadi</div>
             <div className='standort-details'>
               <div>
-                <b>Mo:</b> <b>8:00-16:00</b>
+                <b>Mo, Di, Do:</b> 9 am–5 pm
               </div>
               <div>
-                <b>Di:</b> <b>8:00-16:00</b>
+                <b>Mi, Fr:</b> 9 am–1 pm
               </div>
               <div>
-                <b>Mi:</b> <b>8:00-16:00</b>
-              </div>
-              <div>
-                <b>Do:</b> <b>8:00-16:00</b>
-              </div>
-              <div>
-                <b>Fr:</b> <b>8:00-16:00</b>
-              </div>
-              <div>
-                <b>Sa, So:</b> <b>geschlossen</b>
+                <b>Sa, So:</b> geschlossen
               </div>
               <div>
                 <b>Adresse:</b> Musterstraße 1, 45657 Recklinghausen
@@ -150,22 +140,13 @@ function App() {
             <div className='standort-doctor'>Dr. med. Hazem Al Kadi</div>
             <div className='standort-details'>
               <div>
-                <b>Mo:</b> <b>8:00-16:00</b>
+                <b>Mo, Di, Do:</b> 9 am–5 pm
               </div>
               <div>
-                <b>Di:</b> <b>8:00-16:00</b>
+                <b>Mi, Fr:</b> 9 am–1 pm
               </div>
               <div>
-                <b>Mi:</b> <b>8:00-16:00</b>
-              </div>
-              <div>
-                <b>Do:</b> <b>8:00-16:00</b>
-              </div>
-              <div>
-                <b>Fr:</b> <b>8:00-16:00</b>
-              </div>
-              <div>
-                <b>Sa, So:</b> <b>geschlossen</b>
+                <b>Sa, So:</b> geschlossen
               </div>
               <div>
                 <b>Adresse:</b> Beispielweg 2, 45739 Oer-Erkenschwick
