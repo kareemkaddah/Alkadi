@@ -2,13 +2,156 @@ import './App.css';
 import logo from './assets/logo.png';
 import arztBild from './assets/Arzt Bild von Usman Yousaf.jpg';
 
-function App() {
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from 'react-router-dom';
+
+const leistungenData = [
+  {
+    title: 'EEG (Elektroenzephalografie)',
+    image:
+      'https://images.unsplash.com/photo-1511174511562-5f97f2b2e2b9?auto=format&fit=crop&w=400&q=80',
+    description:
+      'Messung der elektrischen Aktivität des Gehirns zur Diagnose von Epilepsie und anderen neurologischen Erkrankungen.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
+  },
+  {
+    title: 'ENG (Elektroneurografie)',
+    image:
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    description:
+      'Untersuchung der Nervenleitgeschwindigkeit zur Diagnose von Nervenerkrankungen.',
+    available: ['Recklinghausen'],
+  },
+  {
+    title: 'MS-Diagnostik',
+    image:
+      'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
+    description: 'Umfassende Diagnostik und Betreuung bei Multipler Sklerose.',
+    available: ['Oer-Erkenschwick'],
+  },
+  {
+    title: 'Demenzabklärung',
+    image:
+      'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
+    description: 'Früherkennung und Behandlung von Demenz und Alzheimer.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
+  },
+];
+
+function LeistungenPage() {
+  return (
+    <div
+      className='leistungen-page'
+      style={{
+        minHeight: '100vh',
+        background: 'var(--blue-50)',
+        paddingBottom: '3rem',
+      }}
+    >
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          zIndex: 10,
+          padding: '2.5rem 0 0 2.5rem',
+        }}
+      >
+        <img
+          src={logo}
+          alt='Alkadi Logo'
+          style={{ height: '5rem', width: 'auto' }}
+        />
+      </div>
+      <div
+        style={{
+          maxWidth: 900,
+          margin: '0 auto',
+          textAlign: 'center',
+          paddingTop: '4rem',
+        }}
+      >
+        <h1 className='hero-title'>Unsere neurologischen Leistungen</h1>
+        <h2 className='hero-desc' style={{ marginBottom: '2.5rem' }}>
+          Wir bieten Ihnen ein breites Spektrum moderner neurologischer
+          Diagnostik und Therapie.
+        </h2>
+        <div className='leistungen-grid'>
+          {leistungenData.map((leistung, idx) => (
+            <div className='leistung-box' key={idx}>
+              <img
+                src={leistung.image}
+                alt={leistung.title}
+                className='leistung-img'
+              />
+              <div className='leistung-title'>{leistung.title}</div>
+              <div className='leistung-desc'>{leistung.description}</div>
+              <div
+                style={{
+                  display: 'flex',
+                  gap: '0.7rem',
+                  justifyContent: 'center',
+                  marginTop: 'auto',
+                }}
+              >
+                {leistung.available.map((ort) => (
+                  <div
+                    className='leistung-available'
+                    key={ort}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      minWidth: 0,
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: 'var(--blue-600)',
+                        fontSize: '1.2em',
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <svg
+                        width='18'
+                        height='18'
+                        viewBox='0 0 20 20'
+                        fill='none'
+                        stroke='currentColor'
+                        strokeWidth='2.2'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                      >
+                        <polyline points='4 11 8 15 16 6' />
+                      </svg>
+                    </span>
+                    <span style={{ whiteSpace: 'nowrap', fontWeight: 600 }}>
+                      {ort}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MainPage() {
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
+  const navigate = useNavigate();
 
   return (
     <>
@@ -18,7 +161,7 @@ function App() {
           top: 0,
           left: 0,
           zIndex: 10,
-          padding: '2rem 0 0 2rem',
+          padding: '2.5rem 0 0 2.5rem',
         }}
       >
         <img
@@ -115,10 +258,18 @@ function App() {
               </div>
             </div>
             <div className='standort-btn-row'>
-              <button className='standort-btn standort-btn-small'>
+              <a
+                className='standort-btn standort-btn-small'
+                href='https://www.doctolib.de/neurologie/recklinghausen/assad-alkadi'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 Termin vereinbaren
-              </button>
-              <button className='standort-btn standort-btn-secondary standort-btn-small'>
+              </a>
+              <button
+                className='standort-btn standort-btn-secondary standort-btn-small'
+                onClick={() => navigate('/leistungen')}
+              >
                 Leistungen
               </button>
               <button className='standort-btn standort-btn-secondary standort-btn-small'>
@@ -156,10 +307,18 @@ function App() {
               </div>
             </div>
             <div className='standort-btn-row'>
-              <button className='standort-btn standort-btn-small'>
+              <a
+                className='standort-btn standort-btn-small'
+                href='https://www.doctolib.de/einzelpraxis/oer-erkenschwick/neurologiepraxis-dr-alkadi?pid=practice-541381&utm_source=google_appointment_redirect&utm_campaign=gmb&utm_medium=organic&hl=en-DE&gei=-tZqaOH2N--sxc8PmqHj8AM&rwg_token=ACgRB3fIYmRhI1ib8gqsCRTFIg0C_lv9tP8x0CxMnr1rxa_xL_A5NL7uwS8trBL8uNOC8jPXBeoauSnb0WasJlooxzx9qm16cw%3D%3D'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
                 Termin vereinbaren
-              </button>
-              <button className='standort-btn standort-btn-secondary standort-btn-small'>
+              </a>
+              <button
+                className='standort-btn standort-btn-secondary standort-btn-small'
+                onClick={() => navigate('/leistungen')}
+              >
                 Leistungen
               </button>
               <button className='standort-btn standort-btn-secondary standort-btn-small'>
@@ -173,4 +332,13 @@ function App() {
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path='/' element={<MainPage />} />
+        <Route path='/leistungen' element={<LeistungenPage />} />
+      </Routes>
+    </Router>
+  );
+}
