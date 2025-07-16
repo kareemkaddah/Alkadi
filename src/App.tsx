@@ -1,7 +1,7 @@
 import './App.css';
 import logo from './assets/logo.png';
 import arztBild from './assets/Arzt Bild von Usman Yousaf.jpg';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 import {
   BrowserRouter as Router,
@@ -97,6 +97,12 @@ function LeistungenPage() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const handleScrollToGrid = () => {
+    if (gridRef.current) {
+      gridRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
   return (
     <div
       className='leistungen-page'
@@ -106,20 +112,61 @@ function LeistungenPage() {
         paddingBottom: '3rem',
       }}
     >
-      <div
+      {/* Vertically centered hero section for heading and description */}
+      <section
+        className='hero-content'
         style={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
           maxWidth: 900,
           margin: '0 auto',
           textAlign: 'center',
-          paddingTop: '4rem',
+          paddingTop: 0,
+          paddingBottom: 0,
         }}
       >
-        <h1 className='hero-title'>Unsere neurologischen Leistungen</h1>
-        <h2 className='hero-desc'>
+        <h1 className='hero-title animated-text'>
+          Unsere neurologischen Leistungen
+        </h1>
+        <h2
+          className='hero-desc animated-text'
+          style={{ marginBottom: '4.5rem' }}
+        >
           Wir bieten Ihnen ein breites Spektrum moderner neurologischer
           Diagnostik und Therapie.
         </h2>
-        <div className='leistungen-grid'>
+        {/* Mobile-only scroll button */}
+        <button
+          className='scroll-to-leistungen-btn animated-buttons'
+          style={{
+            // display removed so button is always visible
+            padding: '0.6rem 1.3rem',
+            fontSize: '0.98rem',
+            borderRadius: '1.5rem',
+            background: 'var(--blue-600)',
+            color: '#fff',
+            border: 'none',
+            boxShadow: '0 2px 8px rgba(98,190,204,0.13)',
+            cursor: 'pointer',
+            fontWeight: 600,
+            letterSpacing: '0.02em',
+            transition: 'background 0.2s',
+          }}
+          onClick={handleScrollToGrid}
+        >
+          Zu den Leistungen
+        </button>
+      </section>
+      {/* Leistungen grid below, visible after scrolling */}
+      <section>
+        <div
+          ref={gridRef}
+          className='leistungen-grid'
+          style={{ maxWidth: 900, margin: '0 auto' }}
+        >
           {leistungenData.map((leistung, idx) => (
             <div className='leistung-box' key={idx}>
               <img
@@ -178,18 +225,65 @@ function LeistungenPage() {
             </div>
           ))}
         </div>
-      </div>
+      </section>
     </div>
   );
 }
 
 // Remove the old fixed logo div and header bar, replace with a single header
 function MainHeader() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  // Lock scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
   return (
     <header className='main-header-bar'>
       <Link to='/'>
         <img src={logo} alt='Alkadi Logo' className='main-header-logo' />
       </Link>
+      {/* Burger menu only on mobile */}
+      <button
+        className={`burger-menu-btn${menuOpen ? ' open' : ''}`}
+        aria-label='Menü öffnen'
+        onClick={() => setMenuOpen((v) => !v)}
+      >
+        <span className='burger-bar'></span>
+        <span className='burger-bar'></span>
+        <span className='burger-bar'></span>
+      </button>
+      {/* Animated mobile menu */}
+      <nav className={`mobile-nav-menu${menuOpen ? ' show' : ''}`}>
+        <Link
+          to='/'
+          className='mobile-nav-link'
+          onClick={() => setMenuOpen(false)}
+        >
+          Home
+        </Link>
+        <Link
+          to='/leistungen'
+          className='mobile-nav-link'
+          onClick={() => setMenuOpen(false)}
+        >
+          Leistungen
+        </Link>
+      </nav>
+      {/* Overlay for menu */}
+      {menuOpen && (
+        <div
+          className='mobile-nav-overlay'
+          onClick={() => setMenuOpen(false)}
+        ></div>
+      )}
     </header>
   );
 }
@@ -369,33 +463,50 @@ function MainPage() {
   );
 }
 
-function DesktopLogo() {
-  const [isDesktop, setIsDesktop] = useState(false);
-  useEffect(() => {
-    const checkDesktop = () => setIsDesktop(window.innerWidth > 1024);
-    checkDesktop();
-    window.addEventListener('resize', checkDesktop);
-    return () => window.removeEventListener('resize', checkDesktop);
-  }, []);
-  if (!isDesktop) return null;
+function Footer() {
   return (
-    <Link
-      to='/'
-      style={{ position: 'fixed', top: '0.7rem', left: '1.7rem', zIndex: 100 }}
-    >
-      <img
-        src={logo}
-        alt='Alkadi Logo'
-        style={{
-          height: '6.5rem',
-          width: 'auto',
-          background: 'none',
-          margin: 0,
-          padding: 0,
-          display: 'block',
-        }}
-      />
-    </Link>
+    <footer className='main-footer'>
+      <div>
+        <nav style={{ marginBottom: '1.1rem' }}>
+          <Link to='/' className='footer-link'>
+            Home
+          </Link>
+          <span style={{ margin: '0 0.7rem', color: '#bbb' }}>|</span>
+          <Link to='/leistungen' className='footer-link'>
+            Leistungen
+          </Link>
+        </nav>
+        <div
+          style={{
+            marginBottom: '0.7rem',
+            fontWeight: 600,
+            fontSize: '1.15rem',
+          }}
+        >
+          Neurologische Praxis Dr. med. Assad Al Kadi & Hazem Al Kadi
+        </div>
+        <div style={{ marginBottom: '0.3rem' }}>
+          Musterstraße 1, 45657 Recklinghausen & Beispielweg 2, 45739
+          Oer-Erkenschwick
+        </div>
+        <div style={{ marginBottom: '0.3rem' }}>
+          Telefon: <a href='tel:02361123456'>02361 123456</a> |{' '}
+          <a href='tel:02368654321'>02368 654321</a>
+        </div>
+        <div style={{ marginBottom: '0.3rem' }}>
+          E-Mail:{' '}
+          <a href='mailto:info@neurologie-alkadi.de'>
+            info@neurologie-alkadi.de
+          </a>
+        </div>
+        <div
+          style={{ marginTop: '1.1rem', fontSize: '0.98rem', color: '#666' }}
+        >
+          &copy; {new Date().getFullYear()} Neurologische Praxis Dr. med. Assad
+          Al Kadi & Hazem Al Kadi. Alle Rechte vorbehalten.
+        </div>
+      </div>
+    </footer>
   );
 }
 
@@ -412,13 +523,13 @@ export default function App() {
 
   return (
     <Router>
-      <DesktopLogo />
       <MainHeader />
       <div style={{ height: '7.5rem' }} />
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/leistungen' element={<LeistungenPage />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
