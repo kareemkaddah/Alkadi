@@ -1,12 +1,14 @@
 import './App.css';
 import logo from './assets/logo.png';
 import arztBild from './assets/Arzt Bild von Usman Yousaf.jpg';
+import { useState, useEffect } from 'react';
 
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useNavigate,
+  Link,
 } from 'react-router-dom';
 
 const leistungenData = [
@@ -42,7 +44,59 @@ const leistungenData = [
   },
 ];
 
+function IntroScreen({ onComplete }: { onComplete: () => void }) {
+  const [showLogo, setShowLogo] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+
+  useEffect(() => {
+    // Show logo after 2 seconds
+    const logoTimer = setTimeout(() => {
+      setShowLogo(true);
+    }, 2000);
+
+    // Start fade out after 4 seconds
+    const fadeTimer = setTimeout(() => {
+      setFadeOut(true);
+    }, 4000);
+
+    // Complete transition after 5 seconds
+    const completeTimer = setTimeout(() => {
+      onComplete();
+    }, 5000);
+
+    return () => {
+      clearTimeout(logoTimer);
+      clearTimeout(fadeTimer);
+      clearTimeout(completeTimer);
+    };
+  }, [onComplete]);
+
+  return (
+    <div className={`intro-screen ${fadeOut ? 'fade-out' : ''}`}>
+      <div className='intro-background'>
+        <img
+          src='https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80'
+          alt='Landscape'
+          className='intro-bg-image'
+        />
+        <div className='intro-overlay'></div>
+      </div>
+
+      <div className='intro-logo-container'>
+        <img
+          src={logo}
+          alt='Alkadi Logo'
+          className={`intro-logo ${showLogo ? 'show' : ''}`}
+        />
+      </div>
+    </div>
+  );
+}
+
 function LeistungenPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div
       className='leistungen-page'
@@ -54,21 +108,6 @@ function LeistungenPage() {
     >
       <div
         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: 10,
-          padding: '2.5rem 0 0 2.5rem',
-        }}
-      >
-        <img
-          src={logo}
-          alt='Alkadi Logo'
-          style={{ height: '5rem', width: 'auto' }}
-        />
-      </div>
-      <div
-        style={{
           maxWidth: 900,
           margin: '0 auto',
           textAlign: 'center',
@@ -76,7 +115,7 @@ function LeistungenPage() {
         }}
       >
         <h1 className='hero-title'>Unsere neurologischen Leistungen</h1>
-        <h2 className='hero-desc' style={{ marginBottom: '2.5rem' }}>
+        <h2 className='hero-desc'>
           Wir bieten Ihnen ein breites Spektrum moderner neurologischer
           Diagnostik und Therapie.
         </h2>
@@ -144,6 +183,17 @@ function LeistungenPage() {
   );
 }
 
+// Remove the old fixed logo div and header bar, replace with a single header
+function MainHeader() {
+  return (
+    <header className='main-header-bar'>
+      <Link to='/'>
+        <img src={logo} alt='Alkadi Logo' className='main-header-logo' />
+      </Link>
+    </header>
+  );
+}
+
 function MainPage() {
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -155,81 +205,68 @@ function MainPage() {
 
   return (
     <>
-      <div
-        style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          zIndex: 10,
-          padding: '2.5rem 0 0 2.5rem',
-        }}
-      >
-        <img
-          src={logo}
-          alt='Alkadi Logo'
-          style={{ height: '5rem', width: 'auto' }}
-        />
-      </div>
-      <section
-        className='hero'
-        style={{ maxWidth: 900, margin: '0 auto', textAlign: 'center' }}
-      >
-        <h1 className='hero-title'>
-          Willkommen bei Ihren Fachärzten für Neurologie
-          <br />
-          <span className='hero-title-blue'>
-            Dr. med. Assad Al Kadi & Hazem Al Kadi
-          </span>
-        </h1>
-        <h2 className='hero-desc'>
-          Modernste neurologische Diagnostik und Behandlung an zwei Standorten.
-          Wählen Sie Ihre bevorzugte Praxis für weitere Informationen.
-        </h2>
-        <div className='location-buttons'>
-          <button
-            className='location-btn'
-            onClick={() => scrollToSection('recklinghausen')}
-          >
-            <span className='location-icon'>
-              <svg
-                width='28'
-                height='28'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='#62becc'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              >
-                <path d='M21 10.5a8.38 8.38 0 0 1-1.9 5.4c-1.5 1.9-4.6 5.1-6.1 6.6a1.7 1.7 0 0 1-2.4 0c-1.5-1.5-4.6-4.7-6.1-6.6A8.38 8.38 0 0 1 3 10.5a9 9 0 1 1 18 0z' />
-                <circle cx='12' cy='10.5' r='3.5' />
-              </svg>
+      {/* Animated Hero Section */}
+      <section className='animated-hero no-bg'>
+        <div className='hero-content'>
+          <h1 className='hero-title animated-text'>
+            Willkommen bei Ihren Fachärzten für Neurologie
+            <br />
+            <span className='hero-title-blue'>
+              Dr. med. Assad Al Kadi & Hazem Al Kadi
             </span>
-            Recklinghausen
-          </button>
-          <button
-            className='location-btn'
-            onClick={() => scrollToSection('oer-erkenschwick')}
-          >
-            <span className='location-icon'>
-              <svg
-                width='28'
-                height='28'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='#62becc'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-              >
-                <path d='M21 10.5a8.38 8.38 0 0 1-1.9 5.4c-1.5 1.9-4.6 5.1-6.1 6.6a1.7 1.7 0 0 1-2.4 0c-1.5-1.5-4.6-4.7-6.1-6.6A8.38 8.38 0 0 1 3 10.5a9 9 0 1 1 18 0z' />
-                <circle cx='12' cy='10.5' r='3.5' />
-              </svg>
-            </span>
-            Oer-Erkenschwick
-          </button>
+          </h1>
+          <h2 className='hero-desc animated-text'>
+            Modernste neurologische Diagnostik und Behandlung an zwei
+            Standorten. Wählen Sie Ihre bevorzugte Praxis für weitere
+            Informationen.
+          </h2>
+          <div className='location-buttons animated-buttons'>
+            <button
+              className='location-btn'
+              onClick={() => scrollToSection('recklinghausen')}
+            >
+              <span className='location-icon'>
+                <svg
+                  width='28'
+                  height='28'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='#62becc'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                >
+                  <path d='M21 10.5a8.38 8.38 0 0 1-1.9 5.4c-1.5 1.9-4.6 5.1-6.1 6.6a1.7 1.7 0 0 1-2.4 0c-1.5-1.5-4.6-4.7-6.1-6.6A8.38 8.38 0 0 1 3 10.5a9 9 0 1 1 18 0z' />
+                  <circle cx='12' cy='10.5' r='3.5' />
+                </svg>
+              </span>
+              Recklinghausen
+            </button>
+            <button
+              className='location-btn'
+              onClick={() => scrollToSection('oer-erkenschwick')}
+            >
+              <span className='location-icon'>
+                <svg
+                  width='28'
+                  height='28'
+                  viewBox='0 0 24 24'
+                  fill='none'
+                  stroke='#62becc'
+                  strokeWidth='2'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                >
+                  <path d='M21 10.5a8.38 8.38 0 0 1-1.9 5.4c-1.5 1.9-4.6 5.1-6.1 6.6a1.7 1.7 0 0 1-2.4 0c-1.5-1.5-4.6-4.7-6.1-6.6A8.38 8.38 0 0 1 3 10.5a9 9 0 1 1 18 0z' />
+                  <circle cx='12' cy='10.5' r='3.5' />
+                </svg>
+              </span>
+              Oer-Erkenschwick
+            </button>
+          </div>
         </div>
       </section>
+      {/* Rest of the sections */}
       <section id='recklinghausen' className='standort-section'>
         <div className='standort-content'>
           <img
@@ -332,9 +369,52 @@ function MainPage() {
   );
 }
 
+function DesktopLogo() {
+  const [isDesktop, setIsDesktop] = useState(false);
+  useEffect(() => {
+    const checkDesktop = () => setIsDesktop(window.innerWidth > 1024);
+    checkDesktop();
+    window.addEventListener('resize', checkDesktop);
+    return () => window.removeEventListener('resize', checkDesktop);
+  }, []);
+  if (!isDesktop) return null;
+  return (
+    <Link
+      to='/'
+      style={{ position: 'fixed', top: '0.7rem', left: '1.7rem', zIndex: 100 }}
+    >
+      <img
+        src={logo}
+        alt='Alkadi Logo'
+        style={{
+          height: '6.5rem',
+          width: 'auto',
+          background: 'none',
+          margin: 0,
+          padding: 0,
+          display: 'block',
+        }}
+      />
+    </Link>
+  );
+}
+
 export default function App() {
+  const [showIntro, setShowIntro] = useState(true);
+
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+  };
+
+  if (showIntro) {
+    return <IntroScreen onComplete={handleIntroComplete} />;
+  }
+
   return (
     <Router>
+      <DesktopLogo />
+      <MainHeader />
+      <div style={{ height: '7.5rem' }} />
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/leistungen' element={<LeistungenPage />} />
