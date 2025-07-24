@@ -1,6 +1,7 @@
 import './App.css';
 import logo from './assets/logo.png';
 import arztBild from './assets/Arzt Bild von Usman Yousaf.jpg';
+import brainImg from './assets/brain.png';
 import { useState, useEffect, useRef } from 'react';
 
 import {
@@ -13,33 +14,59 @@ import {
 
 const leistungenData = [
   {
-    title: 'EEG (Elektroenzephalografie)',
-    image:
-      'https://images.unsplash.com/photo-1511174511562-5f97f2b2e2b9?auto=format&fit=crop&w=400&q=80',
+    title: 'Allgemeine neurologische Diagnostik & Anamnese',
+    image: brainImg,
     description:
-      'Messung der elektrischen Aktivität des Gehirns zur Diagnose von Epilepsie und anderen neurologischen Erkrankungen.',
+      'Umfassendes Erstgespräch zur Krankengeschichte und neurologische Untersuchung von Reflexen, Motorik, Sensibilität und Kognition.',
     available: ['Recklinghausen', 'Oer-Erkenschwick'],
   },
   {
-    title: 'ENG (Elektroneurografie)',
-    image:
-      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80',
+    title: 'Duplex-Ultraschall / Duplex-Sonografie',
+    image: brainImg,
     description:
-      'Untersuchung der Nervenleitgeschwindigkeit zur Diagnose von Nervenerkrankungen.',
-    available: ['Recklinghausen'],
+      'Gefäßdiagnostik zur Beurteilung der Durchblutung von Hirn- und Halsgefäßen.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
   },
   {
-    title: 'MS-Diagnostik',
-    image:
-      'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80',
-    description: 'Umfassende Diagnostik und Betreuung bei Multipler Sklerose.',
-    available: ['Oer-Erkenschwick'],
+    title: 'Elektroenzephalografie (EEG)',
+    image: brainImg,
+    description:
+      'Messung der elektrischen Aktivität des Gehirns, z. B. bei Epilepsie.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
   },
   {
-    title: 'Demenzabklärung',
-    image:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80',
-    description: 'Früherkennung und Behandlung von Demenz und Alzheimer.',
+    title: 'Elektromyografie (EMG)',
+    image: brainImg,
+    description:
+      'Untersuchung der Muskel- und Nervenfunktion zur Diagnostik neuromuskulärer Störungen.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
+  },
+  {
+    title: 'Nervenleitgeschwindigkeit (NLG)',
+    image: brainImg,
+    description:
+      'Messung der Leitgeschwindigkeit peripherer Nerven zur Diagnostik von Nervenschäden.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
+  },
+  {
+    title: 'Bildgebende Verfahren (CT, MRT)',
+    image: brainImg,
+    description:
+      'Veranlassung von CT- oder MRT-Untersuchungen zur Darstellung des Gehirns und Rückenmarks.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
+  },
+  {
+    title: 'Schlafpolygrafie',
+    image: brainImg,
+    description:
+      'Untersuchung von Schlafstörungen mithilfe ambulanter Schlafdiagnostik.',
+    available: ['Recklinghausen', 'Oer-Erkenschwick'],
+  },
+  {
+    title: 'Labor- und Ultraschalldiagnostik',
+    image: brainImg,
+    description:
+      'Blutuntersuchungen und ergänzende Ultraschalldiagnostik zur Erkennung von Begleiterkrankungen.',
     available: ['Recklinghausen', 'Oer-Erkenschwick'],
   },
 ];
@@ -98,11 +125,32 @@ function LeistungenPage() {
     window.scrollTo(0, 0);
   }, []);
   const gridRef = useRef<HTMLDivElement>(null);
+  const [showAll, setShowAll] = useState(false);
+  // Animation state for pills
+  const [showPills, setShowPills] = useState(false);
+  useEffect(() => {
+    // Show pills after a short delay (after text appears)
+    const timer = setTimeout(() => setShowPills(true), 2200);
+    return () => clearTimeout(timer);
+  }, []);
+  const krankheiten = [
+    'Demenz',
+    'Migräne',
+    'Epilepsie',
+    'Parkinson',
+    'MS',
+    'Schwindel',
+    'Polyneuropathie',
+    '…und mehr',
+  ];
   const handleScrollToGrid = () => {
     if (gridRef.current) {
       gridRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+  const visibleLeistungen = showAll
+    ? leistungenData
+    : leistungenData.slice(0, 4);
   return (
     <div
       className='leistungen-page'
@@ -133,11 +181,56 @@ function LeistungenPage() {
         </h1>
         <h2
           className='hero-desc animated-text'
-          style={{ marginBottom: '4.5rem' }}
+          style={{ marginBottom: '2.2rem' }}
         >
-          Wir bieten Ihnen ein breites Spektrum moderner neurologischer
-          Diagnostik und Therapie.
+          Moderne Diagnostik, persönliche Beratung und gezielte Therapie für Ihr
+          Wohlbefinden.
+          <br />
+          Behandelte Erkrankungen im Überblick:
         </h2>
+        {/* Krankheitsliste as pill boxes */}
+        <div
+          className='krankheiten-list-container'
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '0.7rem',
+            justifyContent: 'center',
+            marginBottom: '2.5rem',
+            maxWidth: 700,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+          }}
+        >
+          {krankheiten.map((krankheit, idx) => (
+            <span
+              key={idx}
+              className={`krankheit-pill krankheit-pill-animate${
+                showPills ? ' show' : ''
+              }`}
+              style={{
+                display: 'inline-block',
+                padding: '0.38em 0.95em',
+                borderRadius: '2em',
+                background: 'var(--blue-100, #e6f7fa)',
+                color: 'var(--blue-700, #217a8a)',
+                fontWeight: 600,
+                fontSize: '0.97em',
+                boxShadow: '0 1px 4px rgba(98,190,204,0.08)',
+                whiteSpace: 'nowrap',
+                border: '1px solid var(--blue-200, #c2e4ec)',
+                marginBottom: '0.2em',
+                cursor: 'pointer',
+                transition: 'background 0.22s, color 0.22s, transform 0.22s',
+                transitionDelay: showPills ? `${idx * 70}ms` : '0ms',
+                opacity: showPills ? 1 : 0,
+                transform: showPills ? 'translateY(0)' : 'translateY(30px)',
+              }}
+            >
+              {krankheit}
+            </span>
+          ))}
+        </div>
         {/* Mobile-only scroll button */}
         <button
           className='scroll-to-leistungen-btn animated-buttons'
@@ -167,7 +260,7 @@ function LeistungenPage() {
           className='leistungen-grid'
           style={{ maxWidth: 900, margin: '0 auto' }}
         >
-          {leistungenData.map((leistung, idx) => (
+          {visibleLeistungen.map((leistung, idx) => (
             <div className='leistung-box' key={idx}>
               <img
                 src={leistung.image}
@@ -225,6 +318,29 @@ function LeistungenPage() {
             </div>
           ))}
         </div>
+        {leistungenData.length > 4 && (
+          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+            <button
+              className='show-more-leistungen-btn'
+              style={{
+                padding: '0.7rem 2.2rem',
+                fontSize: '1.08rem',
+                borderRadius: '1.5rem',
+                background: 'var(--blue-600)',
+                color: '#fff',
+                border: 'none',
+                boxShadow: '0 2px 8px rgba(98,190,204,0.13)',
+                cursor: 'pointer',
+                fontWeight: 600,
+                letterSpacing: '0.02em',
+                transition: 'background 0.2s',
+              }}
+              onClick={() => setShowAll((v) => !v)}
+            >
+              {showAll ? 'Weniger anzeigen' : 'Weitere Leistungen'}
+            </button>
+          </div>
+        )}
       </section>
     </div>
   );
@@ -382,10 +498,14 @@ function MainPage() {
                 <b>Sa, So:</b> geschlossen
               </div>
               <div>
-                <b>Adresse:</b> Musterstraße 1, 45657 Recklinghausen
+                <b>Adresse:</b> Bochumer Straße 124A,
+                <br /> 45661 Recklinghausen
               </div>
               <div>
-                <b>Telefon:</b> 02361 123456
+                <b>Telefon:</b> 02361 653962
+              </div>
+              <div>
+                <b>Fax:</b> 02361 657519
               </div>
             </div>
             <div className='standort-btn-row'>
@@ -434,10 +554,14 @@ function MainPage() {
                 <b>Sa, So:</b> geschlossen
               </div>
               <div>
-                <b>Adresse:</b> Beispielweg 2, 45739 Oer-Erkenschwick
+                <b>Adresse:</b> Konrad-Adenauer-Straße 13,
+                <br /> 45739 Oer-Erkenschwick
               </div>
               <div>
-                <b>Telefon:</b> 02368 654321
+                <b>Telefon:</b> 02368 8920049
+              </div>
+              <div>
+                <b>Fax:</b> 02368 8920048
               </div>
             </div>
             <div className='standort-btn-row'>
