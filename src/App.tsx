@@ -11,6 +11,8 @@ import {
   Link,
 } from 'react-router-dom';
 
+import PraxisDetail from './PraxisDetail';
+
 const leistungenData = [
   {
     title: 'EEG (Elektroenzephalografie)',
@@ -403,7 +405,10 @@ function MainPage() {
               >
                 Leistungen
               </button>
-              <button className='standort-btn standort-btn-secondary standort-btn-small'>
+              <button
+                className='standort-btn standort-btn-secondary standort-btn-small'
+                onClick={() => navigate('/praxis/recklinghausen')}
+              >
                 Praxis Details
               </button>
             </div>
@@ -452,7 +457,10 @@ function MainPage() {
               >
                 Leistungen
               </button>
-              <button className='standort-btn standort-btn-secondary standort-btn-small'>
+              <button
+                className='standort-btn standort-btn-secondary standort-btn-small'
+                onClick={() => navigate('/praxis/oer-erkenschwick')}
+              >
                 Praxis Details
               </button>
             </div>
@@ -528,6 +536,7 @@ export default function App() {
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/leistungen' element={<LeistungenPage />} />
+        <Route path='/praxis/:praxisId' element={<PraxisDetail />} />
       </Routes>
       <Footer />
     </Router>

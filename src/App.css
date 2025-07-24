@@ -646,3 +646,27 @@
   box-shadow: none !important;
   background: none !important;
 }
+
+@media (max-width: 600px) {
+  .hero-content {
+    min-height: calc(100vh - 4rem); /* 4rem is the header height */
+    height: calc(100vh - 4rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 0.5rem;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-content {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    /* Remove previous padding if present */
+  }
+}
