@@ -822,3 +822,78 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Praxis section text and spacing adjustments */
+.standort-info {
+  font-size: 1.01rem;
+  line-height: 1.35;
+}
+.standort-details > div {
+  margin-bottom: 0.32em;
+}
+.standort-details {
+  margin-bottom: 0.7em;
+}
+@media (max-width: 600px) {
+  .standort-info {
+    font-size: 0.95rem;
+  }
+  .standort-details > div {
+    margin-bottom: 0.22em;
+  }
+}
+
+/* Align button row with image bottom in praxis section */
+.standort-content {
+  display: flex;
+  align-items: stretch;
+  gap: 2.2rem;
+}
+.standort-img {
+  max-width: 270px;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 12px rgba(98, 190, 204, 0.09);
+}
+.standort-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+.standort-btn-row {
+  margin-top: 1.1rem;
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-end;
+}
+@media (max-width: 900px) {
+  .standort-content {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .standort-info {
+    align-items: center;
+  }
+  .standort-btn-row {
+    justify-content: center;
+    align-items: flex-end;
+  }
+}
+
+/* Praxis section label color and style */
+.praxis-label {
+  color: var(--blue-600);
+  font-weight: 700;
+  margin-top: 0.3em;
+  margin-bottom: 0.1em;
+  display: block;
+}
+@media (max-width: 600px) {
+  .praxis-label {
+    font-size: 0.98em;
+  }
+}

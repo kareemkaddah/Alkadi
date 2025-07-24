@@ -486,27 +486,30 @@ function MainPage() {
           />
           <div className='standort-info'>
             <div className='standort-title'>Recklinghausen</div>
-            <div className='standort-doctor'>Dr. med. Assad Al Kadi</div>
+            <div className='standort-doctor' style={{ marginBottom: '0.3em' }}>
+              Dr. med. Assad Al Kadi
+            </div>
             <div className='standort-details'>
+              <span className='praxis-label'>Öffnungszeiten</span>
               <div>
-                <b>Mo, Di, Do:</b> 9 am–5 pm
+                <b>Mo:</b> 8:00 - 14:30
               </div>
               <div>
-                <b>Mi, Fr:</b> 9 am–1 pm
+                <b>Di, Do:</b> 8:00 - 12:00, 14:30 - 17:30
               </div>
               <div>
-                <b>Sa, So:</b> geschlossen
+                <b>Mi:</b> 8:00 - 12:30
               </div>
               <div>
-                <b>Adresse:</b> Bochumer Straße 124A,
+                <b>Fr:</b> 8:00 - 13:00
+              </div>
+              <span className='praxis-label'>Adresse</span>
+              <div>
+                Bochumer Straße 124A,
                 <br /> 45661 Recklinghausen
               </div>
-              <div>
-                <b>Telefon:</b> 02361 653962
-              </div>
-              <div>
-                <b>Fax:</b> 02361 657519
-              </div>
+              <span className='praxis-label'>Telefon</span>
+              <div>02361 653962</div>
             </div>
             <div className='standort-btn-row'>
               <a
@@ -527,7 +530,7 @@ function MainPage() {
                 className='standort-btn standort-btn-secondary standort-btn-small'
                 onClick={() => navigate('/praxis/recklinghausen')}
               >
-                Praxis Details
+                Mehr erfahren
               </button>
             </div>
           </div>
@@ -542,27 +545,24 @@ function MainPage() {
           />
           <div className='standort-info'>
             <div className='standort-title'>Oer-Erkenschwick</div>
-            <div className='standort-doctor'>Dr. med. Hazem Al Kadi</div>
+            <div className='standort-doctor' style={{ marginBottom: '0.3em' }}>
+              Dr. med. Hazem Al Kadi
+            </div>
             <div className='standort-details'>
+              <span className='praxis-label'>Öffnungszeiten</span>
               <div>
-                <b>Mo, Di, Do:</b> 9 am–5 pm
+                <b>Mo, Di, Do:</b> 9:00 - 17:00
               </div>
               <div>
-                <b>Mi, Fr:</b> 9 am–1 pm
+                <b>Mi, Fr:</b> 9:00 - 13:00
               </div>
+              <span className='praxis-label'>Adresse</span>
               <div>
-                <b>Sa, So:</b> geschlossen
-              </div>
-              <div>
-                <b>Adresse:</b> Konrad-Adenauer-Straße 13,
+                Konrad-Adenauer-Straße 13,
                 <br /> 45739 Oer-Erkenschwick
               </div>
-              <div>
-                <b>Telefon:</b> 02368 8920049
-              </div>
-              <div>
-                <b>Fax:</b> 02368 8920048
-              </div>
+              <span className='praxis-label'>Telefon</span>
+              <div>02368 8920049</div>
             </div>
             <div className='standort-btn-row'>
               <a
@@ -583,7 +583,7 @@ function MainPage() {
                 className='standort-btn standort-btn-secondary standort-btn-small'
                 onClick={() => navigate('/praxis/oer-erkenschwick')}
               >
-                Praxis Details
+                Mehr erfahren
               </button>
             </div>
           </div>
