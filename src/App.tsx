@@ -1564,6 +1564,154 @@ function MainPage() {
   );
 }
 
+// --- Add Impressum Page ---
+function ImpressumPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return (
+    <section
+      className='impressum-datenschutz-page animated-hero no-bg'
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2.5rem 1rem',
+        maxWidth: 900,
+        margin: '0 auto',
+        textAlign: 'center',
+      }}
+    >
+      <h1 className='hero-title animated-text'>Impressum</h1>
+      <div
+        className='hero-desc animated-text'
+        style={{
+          marginBottom: '2.2rem',
+          fontSize: '1.1rem',
+          color: '#333',
+          textAlign: 'left',
+          maxWidth: 700,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}
+      >
+        <b>Angaben gemäß § 5 TMG</b>
+        <br />
+        <br />
+        Dr. med. Assad Al Kadi & Hazem Al Kadi
+        <br />
+        Musterstraße 1<br />
+        45657 Recklinghausen
+        <br />
+        <br />
+        Telefon: 02361 123456
+        <br />
+        E-Mail: info@neurologie-alkadi.de
+        <br />
+        <br />
+        <b>Berufsbezeichnung:</b> Facharzt für Neurologie (verliehen in
+        Deutschland)
+        <br />
+        <b>Zuständige Kammer:</b> Ärztekammer Westfalen-Lippe
+        <br />
+        <b>Aufsichtsbehörde:</b> Kassenärztliche Vereinigung Westfalen-Lippe
+        <br />
+        <br />
+        <b>Haftungsausschluss:</b>
+        <br />
+        Trotz sorgfältiger inhaltlicher Kontrolle übernehmen wir keine Haftung
+        für die Inhalte externer Links. Für den Inhalt der verlinkten Seiten
+        sind ausschließlich deren Betreiber verantwortlich.
+        <br />
+        <br />
+        <b>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:</b>
+        <br />
+        Dr. med. Assad Al Kadi & Hazem Al Kadi
+        <br />
+        Musterstraße 1, 45657 Recklinghausen
+      </div>
+    </section>
+  );
+}
+
+// --- Add Datenschutz Page ---
+function DatenschutzPage() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  return (
+    <section
+      className='impressum-datenschutz-page animated-hero no-bg'
+      style={{
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '2.5rem 1rem',
+        maxWidth: 900,
+        margin: '0 auto',
+        textAlign: 'center',
+      }}
+    >
+      <h1 className='hero-title animated-text'>Datenschutzerklärung</h1>
+      <div
+        className='hero-desc animated-text'
+        style={{
+          marginBottom: '2.2rem',
+          fontSize: '1.1rem',
+          color: '#333',
+          textAlign: 'left',
+          maxWidth: 700,
+          marginLeft: 'auto',
+          marginRight: 'auto',
+        }}
+      >
+        <b>Datenschutz</b>
+        <br />
+        <br />
+        Wir nehmen den Schutz Ihrer persönlichen Daten sehr ernst.
+        Personenbezogene Daten werden auf dieser Webseite nur im technisch
+        notwendigen Umfang erhoben. In keinem Fall werden die erhobenen Daten
+        verkauft oder aus anderen Gründen an Dritte weitergegeben.
+        <br />
+        <br />
+        <b>Verantwortliche Stelle:</b>
+        <br />
+        Dr. med. Assad Al Kadi & Hazem Al Kadi
+        <br />
+        Musterstraße 1, 45657 Recklinghausen
+        <br />
+        <br />
+        <b>Erhebung und Verarbeitung von Daten:</b>
+        <br />
+        Beim Besuch dieser Website werden automatisch Informationen in
+        Server-Logfiles gespeichert, die Ihr Browser an uns übermittelt. Diese
+        Daten sind nicht bestimmten Personen zuordenbar. Eine Zusammenführung
+        dieser Daten mit anderen Datenquellen wird nicht vorgenommen.
+        <br />
+        <br />
+        <b>Auskunftsrecht:</b>
+        <br />
+        Sie haben jederzeit das Recht auf Auskunft über die bezüglich Ihrer
+        Person gespeicherten Daten, deren Herkunft und Empfänger sowie den Zweck
+        der Speicherung.
+        <br />
+        <br />
+        <b>Weitere Informationen:</b>
+        <br />
+        Ihr Vertrauen ist uns wichtig. Daher möchten wir Ihnen jederzeit Rede
+        und Antwort bezüglich der Verarbeitung Ihrer personenbezogenen Daten
+        stehen. Wenn Sie Fragen haben, die Ihnen diese Datenschutzerklärung
+        nicht beantworten konnte, wenden Sie sich gerne jederzeit an uns.
+        <br />
+      </div>
+    </section>
+  );
+}
+
 function Footer() {
   return (
     <footer className='main-footer'>
@@ -1583,6 +1731,15 @@ function Footer() {
           <span style={{ margin: '0 0.7rem', color: '#bbb' }}>|</span>
           <Link to='/praxis/oer-erkenschwick' className='footer-link'>
             Oer-Erkenschwick
+          </Link>
+          <span style={{ margin: '0 0.7rem', color: '#bbb' }}>|</span>
+          {/* Add Impressum and Datenschutz links */}
+          <Link to='/impressum' className='footer-link'>
+            Impressum
+          </Link>
+          <span style={{ margin: '0 0.7rem', color: '#bbb' }}>|</span>
+          <Link to='/datenschutz' className='footer-link'>
+            Datenschutz
           </Link>
         </nav>
         <div
@@ -1645,6 +1802,9 @@ export default function App() {
           path='/praxis/oer-erkenschwick'
           element={<OerErkenschwickInfoPage />}
         />
+        {/* Add Impressum and Datenschutz routes */}
+        <Route path='/impressum' element={<ImpressumPage />} />
+        <Route path='/datenschutz' element={<DatenschutzPage />} />
       </Routes>
       <Footer />
     </Router>

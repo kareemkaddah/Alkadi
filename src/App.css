@@ -985,3 +985,57 @@
 .fade-in-box.delay-3 {
   animation-delay: 0.45s;
 }
+
+.impressum-datenschutz-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.impressum-datenschutz-page .hero-title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--blue-600, #62becc);
+  margin-bottom: 1.2rem;
+}
+.impressum-datenschutz-page .hero-desc {
+  font-size: 1.1rem;
+  color: #333;
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #fff;
+  border-radius: 1.2rem;
+  box-shadow: 0 2px 12px rgba(98, 190, 204, 0.09);
+  padding: 2rem 1.5rem;
+  margin-bottom: 2.2rem;
+}
+@media (max-width: 700px) {
+  .impressum-datenschutz-page {
+    padding: 0.7rem 0.1rem;
+    max-width: 99vw;
+  }
+  .impressum-datenschutz-page .hero-title {
+    font-size: 1.05rem;
+    margin-bottom: 0.7rem;
+  }
+  .impressum-datenschutz-page .hero-desc {
+    font-size: 0.89rem;
+    padding: 0.7rem 0.4rem;
+    border-radius: 0.7rem;
+    margin-bottom: 1.1rem;
+    width: 100%;
+    max-width: 420px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+  }
+}
