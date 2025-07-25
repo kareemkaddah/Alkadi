@@ -3,6 +3,7 @@ import logo from './assets/logo.png';
 import arztBild from './assets/Arzt Bild von Usman Yousaf.jpg';
 import brainImg from './assets/brain.png';
 import { useState, useEffect, useRef } from 'react';
+import React from 'react';
 
 import {
   BrowserRouter as Router,
@@ -474,6 +475,753 @@ function LeistungenPage() {
   );
 }
 
+// Add new component for Recklinghausen details page
+function RecklinghausenInfoPage() {
+  const [boxesVisible, setBoxesVisible] = React.useState(false);
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  React.useEffect(() => {
+    const timer = setTimeout(() => setBoxesVisible(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <div
+      className='praxis-info-page'
+      style={{
+        minHeight: '100vh',
+        background:
+          'linear-gradient(180deg, var(--blue-100) 0%, var(--white) 100%)',
+        backgroundAttachment: 'fixed',
+        padding: '2.5rem 0',
+      }}
+    >
+      <div
+        className='praxis-info-boxes'
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '2rem',
+          justifyContent: 'center',
+          marginBottom: '2.5rem',
+        }}
+      >
+        {/* Contact Box */}
+        <div
+          className={
+            `praxis-info-box leistung-box fade-in-box${
+              boxesVisible ? ' show' : ''
+            }` + (boxesVisible ? '' : '')
+          }
+          style={{
+            flex: '1 1 320px',
+            minWidth: 280,
+            maxWidth: 400,
+            background: '#fff',
+            borderRadius: '1.2rem',
+            boxShadow: '0 2px 12px rgba(98,190,204,0.09)',
+            padding: '2rem 1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '1.1rem',
+            textAlign: 'left',
+            opacity: boxesVisible ? 1 : 0,
+            animationDelay: boxesVisible ? '0.1s' : '0s',
+          }}
+        >
+          <div
+            className='praxis-info-title'
+            style={{
+              fontWeight: 700,
+              fontSize: '1.25rem',
+              marginBottom: '0.5rem',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            Kontakt
+          </div>
+          <div>
+            <span className='praxis-label'>Adresse:</span>
+            <div>
+              Bochumer Straße 124A,
+              <br />
+              45661 Recklinghausen
+            </div>
+          </div>
+          <div>
+            <span className='praxis-label'>Telefon:</span>
+            <div>
+              <a href='tel:02361653962'>02361 653962</a>
+            </div>
+          </div>
+          <div>
+            <span className='praxis-label'>E-Mail:</span>
+            <div>
+              <a href='mailto:info@neurologie-alkadi.de'>
+                info@neurologie-alkadi.de
+              </a>
+            </div>
+          </div>
+          <div>
+            <a
+              href='https://www.doctolib.de/neurologie/recklinghausen/assad-alkadi'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='standort-btn'
+              style={{
+                marginTop: '0.7rem',
+                padding: '0.5rem 1.2rem',
+                borderRadius: '1.2rem',
+                background: 'var(--blue-600)',
+                color: '#fff',
+                fontWeight: 600,
+                textDecoration: 'none',
+                display: 'inline-block',
+              }}
+            >
+              Online-Termin vereinbaren
+            </a>
+          </div>
+        </div>
+        {/* Opening/Vacation/Replacement Box */}
+        <div
+          className={`praxis-info-box leistung-box fade-in-box delay-1${
+            boxesVisible ? ' show' : ''
+          }`}
+          style={{
+            flex: '1 1 320px',
+            minWidth: 280,
+            maxWidth: 400,
+            background: '#fff',
+            borderRadius: '1.2rem',
+            boxShadow: '0 2px 12px rgba(98,190,204,0.09)',
+            padding: '2rem 1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.1rem',
+            alignItems: 'flex-start',
+            textAlign: 'left',
+            opacity: boxesVisible ? 1 : 0,
+            animationDelay: boxesVisible ? '0.25s' : '0s',
+          }}
+        >
+          <div
+            className='praxis-info-title'
+            style={{
+              fontWeight: 700,
+              fontSize: '1.25rem',
+              marginBottom: '0.5rem',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            Öffnungszeiten
+          </div>
+          <div style={{ textAlign: 'left', width: '100%' }}>
+            <span className='praxis-label'>Öffnungszeiten:</span>
+            <div>
+              <b>Mo:</b> 8:00 - 14:30
+            </div>
+            <div>
+              <b>Di, Do:</b> 8:00 - 12:00, 14:30 - 17:30
+            </div>
+            <div>
+              <b>Mi:</b> 8:00 - 12:30
+            </div>
+            <div>
+              <b>Fr:</b> 8:00 - 13:00
+            </div>
+          </div>
+          <div style={{ textAlign: 'left', width: '100%' }}>
+            <span className='praxis-label'>Urlaubszeiten:</span>
+            <div>Urlaub vom 01.08.2025 bis 15.08.2025 (Platzhalter)</div>
+            <div>Urlaub vom 23.12.2025 bis 01.01.2026 (Platzhalter)</div>
+          </div>
+          <div style={{ textAlign: 'left', width: '100%' }}>
+            <span className='praxis-label'>Vertretungsärzte:</span>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.7rem',
+                marginTop: '0.5rem',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                className='vertretungsarzt-box leistung-box'
+                style={{
+                  background: 'var(--blue-50)',
+                  borderRadius: '0.8rem',
+                  padding: '0.7rem 1rem',
+                  boxShadow: '0 1px 4px rgba(98,190,204,0.07)',
+                  textAlign: 'left',
+                  width: '100%',
+                  maxWidth: 320,
+                }}
+              >
+                <div style={{ fontWeight: 600 }}>Dr. Max Mustermann</div>
+                <div>Beispielstraße 1, 12345 Musterstadt</div>
+                <div>Tel: 01234 567890</div>
+              </div>
+              <div
+                className='vertretungsarzt-box leistung-box'
+                style={{
+                  background: 'var(--blue-50)',
+                  borderRadius: '0.8rem',
+                  padding: '0.7rem 1rem',
+                  boxShadow: '0 1px 4px rgba(98,190,204,0.07)',
+                  textAlign: 'left',
+                  width: '100%',
+                  maxWidth: 320,
+                }}
+              >
+                <div style={{ fontWeight: 600 }}>Dr. Erika Musterfrau</div>
+                <div>Anderweg 2, 54321 Beispielstadt</div>
+                <div>Tel: 09876 543210</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Placeholder for more content about the practice */}
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          margin: '2.5rem 0',
+        }}
+        className='praxis-map-responsive'
+      >
+        <a
+          href='https://www.google.com/maps/search/?api=1&query=Bochumer+Stra%C3%9Fe+124A%2C+45661+Recklinghausen'
+          target='_blank'
+          rel='noopener noreferrer'
+          style={{
+            display: 'block',
+            width: '100%',
+            maxWidth: 840,
+            borderRadius: '1rem',
+            overflow: 'hidden',
+          }}
+        >
+          <iframe
+            title='Praxis Standort Karte'
+            src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2522.393964479836!2d7.186000076789839!3d51.58780097178213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b8e3e2e2e2e2e3%3A0x123456789abcdef!2sBochumer%20Stra%C3%9Fe%20124A%2C%2045661%20Recklinghausen!5e0!3m2!1sde!2sde!4v1710000000000!5m2!1sde!2sde'
+            width='100%'
+            height='350'
+            style={{ border: 0, display: 'block' }}
+            allowFullScreen={true}
+            loading='lazy'
+            referrerPolicy='no-referrer-when-downgrade'
+          ></iframe>
+        </a>
+      </div>
+      {/* Praxis image gallery below the map */}
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          margin: '0 0 2.5rem 0',
+        }}
+        className='praxis-carousel-responsive'
+      >
+        <PraxisImageCarousel />
+      </div>
+    </div>
+  );
+}
+
+// Add new component for Oer-Erkenschwick details page
+function OerErkenschwickInfoPage() {
+  const [boxesVisible, setBoxesVisible] = React.useState(false);
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  React.useEffect(() => {
+    const timer = setTimeout(() => setBoxesVisible(true), 50);
+    return () => clearTimeout(timer);
+  }, []);
+  return (
+    <div
+      className='praxis-info-page'
+      style={{
+        minHeight: '100vh',
+        background:
+          'linear-gradient(180deg, var(--blue-100) 0%, var(--white) 100%)',
+        backgroundAttachment: 'fixed',
+        padding: '2.5rem 0',
+      }}
+    >
+      <div
+        className='praxis-info-boxes'
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '2rem',
+          justifyContent: 'center',
+          marginBottom: '2.5rem',
+        }}
+      >
+        {/* Contact Box */}
+        <div
+          className={
+            `praxis-info-box leistung-box fade-in-box${
+              boxesVisible ? ' show' : ''
+            }` + (boxesVisible ? '' : '')
+          }
+          style={{
+            flex: '1 1 320px',
+            minWidth: 280,
+            maxWidth: 400,
+            background: '#fff',
+            borderRadius: '1.2rem',
+            boxShadow: '0 2px 12px rgba(98,190,204,0.09)',
+            padding: '2rem 1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: '1.1rem',
+            textAlign: 'left',
+            opacity: boxesVisible ? 1 : 0,
+            animationDelay: boxesVisible ? '0.1s' : '0s',
+          }}
+        >
+          <div
+            className='praxis-info-title'
+            style={{
+              fontWeight: 700,
+              fontSize: '1.25rem',
+              marginBottom: '0.5rem',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            Kontakt
+          </div>
+          <div>
+            <span className='praxis-label'>Adresse:</span>
+            <div>
+              Konrad-Adenauer-Straße 13,
+              <br />
+              45739 Oer-Erkenschwick
+            </div>
+          </div>
+          <div>
+            <span className='praxis-label'>Telefon:</span>
+            <div>
+              <a href='tel:023688920049'>02368 8920049</a>
+            </div>
+          </div>
+          <div>
+            <span className='praxis-label'>E-Mail:</span>
+            <div>
+              <a href='mailto:info@neurologie-alkadi.de'>
+                info@neurologie-alkadi.de
+              </a>
+            </div>
+          </div>
+          <div>
+            <a
+              href='https://www.doctolib.de/einzelpraxis/oer-erkenschwick/neurologiepraxis-dr-alkadi?pid=practice-541381&utm_source=google_appointment_redirect&utm_campaign=gmb&utm_medium=organic&hl=en-DE&gei=-tZqaOH2N--sxc8PmqHj8AM&rwg_token=ACgRB3fIYmRhI1ib8gqsCRTFIg0C_lv9tP8x0CxMnr1rxa_xL_A5NL7uwS8trBL8uNOC8jPXBeoauSnb0WasJlooxzx9qm16cw%3D%3D'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='standort-btn'
+              style={{
+                marginTop: '0.7rem',
+                padding: '0.5rem 1.2rem',
+                borderRadius: '1.2rem',
+                background: 'var(--blue-600)',
+                color: '#fff',
+                fontWeight: 600,
+                textDecoration: 'none',
+                display: 'inline-block',
+              }}
+            >
+              Online-Termin vereinbaren
+            </a>
+          </div>
+        </div>
+        {/* Opening/Vacation/Replacement Box */}
+        <div
+          className={`praxis-info-box leistung-box fade-in-box delay-1${
+            boxesVisible ? ' show' : ''
+          }`}
+          style={{
+            flex: '1 1 320px',
+            minWidth: 280,
+            maxWidth: 400,
+            background: '#fff',
+            borderRadius: '1.2rem',
+            boxShadow: '0 2px 12px rgba(98,190,204,0.09)',
+            padding: '2rem 1.5rem',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.1rem',
+            alignItems: 'flex-start',
+            textAlign: 'left',
+            opacity: boxesVisible ? 1 : 0,
+            animationDelay: boxesVisible ? '0.25s' : '0s',
+          }}
+        >
+          <div
+            className='praxis-info-title'
+            style={{
+              fontWeight: 700,
+              fontSize: '1.25rem',
+              marginBottom: '0.5rem',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            Öffnungszeiten
+          </div>
+          <div style={{ textAlign: 'left', width: '100%' }}>
+            <span className='praxis-label'>Öffnungszeiten:</span>
+            <div>
+              <b>Mo, Di, Do:</b> 9:00 - 17:00
+            </div>
+            <div>
+              <b>Mi, Fr:</b> 9:00 - 13:00
+            </div>
+          </div>
+          <div style={{ textAlign: 'left', width: '100%' }}>
+            <span className='praxis-label'>Urlaubszeiten:</span>
+            <div>Urlaub vom 10.07.2025 bis 24.07.2025 (Platzhalter)</div>
+            <div>Urlaub vom 24.12.2025 bis 02.01.2026 (Platzhalter)</div>
+          </div>
+          <div style={{ textAlign: 'left', width: '100%' }}>
+            <span className='praxis-label'>Vertretungsärzte:</span>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.7rem',
+                marginTop: '0.5rem',
+                alignItems: 'center',
+              }}
+            >
+              <div
+                className='vertretungsarzt-box leistung-box'
+                style={{
+                  background: 'var(--blue-50)',
+                  borderRadius: '0.8rem',
+                  padding: '0.7rem 1rem',
+                  boxShadow: '0 1px 4px rgba(98,190,204,0.07)',
+                  textAlign: 'left',
+                  width: '100%',
+                  maxWidth: 320,
+                }}
+              >
+                <div style={{ fontWeight: 600 }}>Dr. Anna Beispiel</div>
+                <div>Praxisweg 3, 45739 Oer-Erkenschwick</div>
+                <div>Tel: 02368 111222</div>
+              </div>
+              <div
+                className='vertretungsarzt-box leistung-box'
+                style={{
+                  background: 'var(--blue-50)',
+                  borderRadius: '0.8rem',
+                  padding: '0.7rem 1rem',
+                  boxShadow: '0 1px 4px rgba(98,190,204,0.07)',
+                  textAlign: 'left',
+                  width: '100%',
+                  maxWidth: 320,
+                }}
+              >
+                <div style={{ fontWeight: 600 }}>Dr. Bernd Muster</div>
+                <div>Beispielallee 4, 45657 Recklinghausen</div>
+                <div>Tel: 02361 333444</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Placeholder for more content about the practice */}
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          margin: '2.5rem 0',
+        }}
+        className='praxis-map-responsive'
+      >
+        <a
+          href='https://www.google.com/maps/search/?api=1&query=Konrad-Adenauer-Stra%C3%9Fe+13%2C+45739+Oer-Erkenschwick'
+          target='_blank'
+          rel='noopener noreferrer'
+          style={{
+            display: 'block',
+            width: '100%',
+            maxWidth: 840,
+            borderRadius: '1rem',
+            overflow: 'hidden',
+          }}
+        >
+          <iframe
+            title='Praxis Standort Karte'
+            src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2522.393964479836!2d7.246000076789839!3d51.64280097178213!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47b8e3e2e2e2e2e4%3A0xabcdef123456789!2sKonrad-Adenauer-Stra%C3%9Fe%2013%2C%2045739%20Oer-Erkenschwick!5e0!3m2!1sde!2sde!4v1710000000001!5m2!1sde!2sde'
+            width='100%'
+            height='350'
+            style={{ border: 0, display: 'block' }}
+            allowFullScreen={true}
+            loading='lazy'
+            referrerPolicy='no-referrer-when-downgrade'
+          ></iframe>
+        </a>
+      </div>
+      {/* Praxis image gallery below the map */}
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          margin: '0 0 2.5rem 0',
+        }}
+        className='praxis-carousel-responsive'
+      >
+        <PraxisImageCarousel />
+      </div>
+    </div>
+  );
+}
+
+// Add this component above RecklinghausenInfoPage
+function PraxisImageCarousel() {
+  const images = [
+    { src: arztBild, alt: 'Praxis Innenansicht 1' },
+    { src: logo, alt: 'Praxis Innenansicht 2' },
+  ];
+  const [current, setCurrent] = React.useState(0);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const handlePrev = () => {
+    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+  const handleNext = () => {
+    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
+  // Scroll to current image
+  React.useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        left: scrollRef.current.offsetWidth * current,
+        behavior: 'smooth',
+      });
+    }
+  }, [current]);
+
+  // Touch/swipe support
+  React.useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    let startX = 0;
+    let scrollStart = 0;
+    let isDragging = false;
+    const onTouchStart = (e: TouchEvent) => {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      scrollStart = el.scrollLeft;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return;
+      const dx = startX - e.touches[0].clientX;
+      el.scrollLeft = scrollStart + dx;
+    };
+    const onTouchEnd = () => {
+      isDragging = false;
+      // Snap to closest image
+      const idx = Math.round(el.scrollLeft / el.offsetWidth);
+      setCurrent(idx);
+    };
+    el.addEventListener('touchstart', onTouchStart);
+    el.addEventListener('touchmove', onTouchMove);
+    el.addEventListener('touchend', onTouchEnd);
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart);
+      el.removeEventListener('touchmove', onTouchMove);
+      el.removeEventListener('touchend', onTouchEnd);
+    };
+  }, []);
+
+  if (typeof window !== 'undefined') {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .praxis-carousel-scroll::-webkit-scrollbar { display: none; }
+      .praxis-carousel-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    `;
+    document.head.appendChild(style);
+  }
+
+  return (
+    <div
+      style={{
+        width: '100%',
+        maxWidth: 840,
+        position: 'relative',
+        borderRadius: '1rem',
+        overflow: 'hidden',
+      }}
+      className='praxis-carousel-responsive'
+    >
+      <div
+        ref={scrollRef}
+        style={{
+          display: 'flex',
+          overflowX: 'auto',
+          scrollSnapType: 'x mandatory',
+          width: '100%',
+          height: 320,
+          scrollbarWidth: 'none', // Firefox
+          msOverflowStyle: 'none', // IE/Edge
+        }}
+        className='praxis-carousel-scroll'
+      >
+        {images.map((img, idx) => (
+          <img
+            key={idx}
+            src={img.src}
+            alt={img.alt}
+            style={{
+              width: '100%',
+              minWidth: '100%',
+              maxWidth: '100%',
+              height: 320,
+              objectFit: 'cover',
+              borderRadius: '1rem',
+              scrollSnapAlign: 'start',
+              transition: 'box-shadow 0.2s',
+              boxShadow:
+                idx === current ? '0 2px 12px rgba(98,190,204,0.13)' : 'none',
+            }}
+          />
+        ))}
+      </div>
+      {/* Left/Right buttons */}
+      {images.length > 1 && (
+        <>
+          <span
+            onClick={handlePrev}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: 18,
+              transform: 'translateY(-50%)',
+              color: 'var(--blue-600)',
+              cursor: 'pointer',
+              userSelect: 'none',
+              zIndex: 2,
+              lineHeight: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 44,
+              height: 44,
+            }}
+            aria-label='Vorheriges Bild'
+            role='button'
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') handlePrev();
+            }}
+          >
+            <svg
+              width='38'
+              height='38'
+              viewBox='0 0 38 38'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <polyline
+                points='24 8 14 19 24 30'
+                stroke='var(--blue-600)'
+                strokeWidth='3.5'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                fill='none'
+              />
+            </svg>
+          </span>
+          <span
+            onClick={handleNext}
+            style={{
+              position: 'absolute',
+              top: '50%',
+              right: 18,
+              transform: 'translateY(-50%)',
+              color: 'var(--blue-600)',
+              cursor: 'pointer',
+              userSelect: 'none',
+              zIndex: 2,
+              lineHeight: 1,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 44,
+              height: 44,
+            }}
+            aria-label='Nächstes Bild'
+            role='button'
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') handleNext();
+            }}
+          >
+            <svg
+              width='38'
+              height='38'
+              viewBox='0 0 38 38'
+              fill='none'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <polyline
+                points='14 8 24 19 14 30'
+                stroke='var(--blue-600)'
+                strokeWidth='3.5'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                fill='none'
+              />
+            </svg>
+          </span>
+        </>
+      )}
+      {/* Dots */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 12,
+          left: 0,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          gap: 8,
+        }}
+      >
+        {images.map((_, idx) => (
+          <span
+            key={idx}
+            style={{
+              width: 10,
+              height: 10,
+              borderRadius: '50%',
+              background: idx === current ? 'var(--blue-600)' : '#c2e4ec',
+              display: 'inline-block',
+              transition: 'background 0.2s',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // Remove the old fixed logo div and header bar, replace with a single header
 function MainHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -539,6 +1287,20 @@ function MainHeader() {
           onClick={() => setMenuOpen(false)}
         >
           Leistungen
+        </Link>
+        <Link
+          to='/praxis/recklinghausen'
+          className='mobile-nav-link'
+          onClick={() => setMenuOpen(false)}
+        >
+          Recklinghausen
+        </Link>
+        <Link
+          to='/praxis/oer-erkenschwick'
+          className='mobile-nav-link'
+          onClick={() => setMenuOpen(false)}
+        >
+          Oer-Erkenschwick
         </Link>
       </nav>
       {/* Overlay for menu */}
@@ -814,6 +1576,14 @@ function Footer() {
           <Link to='/leistungen' className='footer-link'>
             Leistungen
           </Link>
+          <span style={{ margin: '0 0.7rem', color: '#bbb' }}>|</span>
+          <Link to='/praxis/recklinghausen' className='footer-link'>
+            Recklinghausen
+          </Link>
+          <span style={{ margin: '0 0.7rem', color: '#bbb' }}>|</span>
+          <Link to='/praxis/oer-erkenschwick' className='footer-link'>
+            Oer-Erkenschwick
+          </Link>
         </nav>
         <div
           style={{
@@ -867,8 +1637,37 @@ export default function App() {
       <Routes>
         <Route path='/' element={<MainPage />} />
         <Route path='/leistungen' element={<LeistungenPage />} />
+        <Route
+          path='/praxis/recklinghausen'
+          element={<RecklinghausenInfoPage />}
+        />
+        <Route
+          path='/praxis/oer-erkenschwick'
+          element={<OerErkenschwickInfoPage />}
+        />
       </Routes>
       <Footer />
     </Router>
   );
+}
+
+// Add this style at the top of the file, after imports, to make map and carousel smaller on mobile
+if (typeof window !== 'undefined') {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .praxis-carousel-scroll::-webkit-scrollbar { display: none; }
+    .praxis-carousel-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+    @media (max-width: 600px) {
+      .praxis-map-responsive, .praxis-carousel-responsive {
+        max-width: 94vw !important;
+        height: 140px !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .praxis-carousel-responsive img {
+        height: 140px !important;
+      }
+    }
+  `;
+  document.head.appendChild(style);
 }

@@ -959,3 +959,29 @@
   opacity: 1;
   transform: translateX(0);
 }
+
+@keyframes fadeInBox {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-box {
+  opacity: 0;
+  animation: fadeInBox 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+.fade-in-box.delay-1 {
+  animation-delay: 0.15s;
+}
+.fade-in-box.delay-2 {
+  animation-delay: 0.3s;
+}
+.fade-in-box.delay-3 {
+  animation-delay: 0.45s;
+}
