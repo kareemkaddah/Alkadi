@@ -1752,12 +1752,12 @@ function Footer() {
           Neurologische Praxis Dr. med. Assad Al Kadi & Hazem Al Kadi
         </div>
         <div style={{ marginBottom: '0.3rem' }}>
-          Musterstraße 1, 45657 Recklinghausen & Beispielweg 2, 45739
-          Oer-Erkenschwick
+          Bochumer Straße 124A, 45661 Recklinghausen & Konrad-Adenauer-Straße
+          13, 45739 Oer-Erkenschwick
         </div>
         <div style={{ marginBottom: '0.3rem' }}>
-          Telefon: <a href='tel:02361123456'>02361 123456</a> |{' '}
-          <a href='tel:02368654321'>02368 654321</a>
+          Telefon: <a href='tel:02361653962'>02361 653962</a> |{' '}
+          <a href='tel:023688920049'>02368 8920049</a>
         </div>
         <div style={{ marginBottom: '0.3rem' }}>
           E-Mail:{' '}
