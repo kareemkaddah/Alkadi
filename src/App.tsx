@@ -10,6 +10,7 @@ import {
   Route,
   useNavigate,
   Link,
+  useLocation,
 } from 'react-router-dom';
 
 const leistungenData = [
@@ -128,11 +129,110 @@ function LeistungenPage() {
   const [showAll, setShowAll] = useState(false);
   // Animation state for pills
   const [showPills, setShowPills] = useState(false);
+  // Animation state for leistungen fade-in
+  const [fadeInIndexes, setFadeInIndexes] = useState<number[]>([]);
+  // Animation state for leistungen fade-out
+  const [collapsing, setCollapsing] = useState(false);
+  const [fadeOutIndexes, setFadeOutIndexes] = useState<number[]>([]);
+
+  // Determine which cards to show (move this up so it's available for hooks)
+  let visibleLeistungen: typeof leistungenData;
+  if (showAll || collapsing) {
+    visibleLeistungen = leistungenData;
+  } else {
+    visibleLeistungen = leistungenData.slice(0, 4);
+  }
+
+  // --- Slide-in animation state ---
+  const [cardShown, setCardShown] = useState<boolean[]>([]);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [buttonShown, setButtonShown] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
   useEffect(() => {
     // Show pills after a short delay (after text appears)
     const timer = setTimeout(() => setShowPills(true), 2200);
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (showAll) {
+      // Animate only the newly revealed cards (indexes 4+)
+      const newIndexes = leistungenData.map((_, idx) => idx).slice(4);
+      setFadeInIndexes(newIndexes);
+      // Remove animation class after animation duration
+      const timeout = setTimeout(() => setFadeInIndexes([]), 700);
+      return () => clearTimeout(timeout);
+    }
+  }, [showAll]);
+
+  // Handle collapse (fade-out)
+  useEffect(() => {
+    if (collapsing) {
+      // Animate only the cards to be hidden (indexes 4+)
+      const outIndexes = leistungenData.map((_, idx) => idx).slice(4);
+      setFadeOutIndexes(outIndexes);
+      // After animation, actually collapse
+      const timeout = setTimeout(() => {
+        setShowAll(false);
+        setCollapsing(false);
+        setFadeOutIndexes([]);
+      }, 600); // match fade-out duration
+      return () => clearTimeout(timeout);
+    }
+  }, [collapsing]);
+
+  // --- Slide-in observer logic for cards ---
+  useEffect(() => {
+    // Reset shown state when visibleLeistungen changes
+    setCardShown(Array(visibleLeistungen.length).fill(false));
+    // eslint-disable-next-line
+  }, [showAll, collapsing, visibleLeistungen.length]);
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    cardRefs.current.forEach((ref, idx) => {
+      if (!ref) return;
+      const observer = new window.IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setCardShown((prev) => {
+                if (prev[idx]) return prev;
+                const next = [...prev];
+                next[idx] = true;
+                return next;
+              });
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(ref);
+      observers.push(observer);
+    });
+    return () => observers.forEach((obs) => obs.disconnect());
+  }, [visibleLeistungen.length]);
+
+  // --- Slide-in observer logic for button ---
+  useEffect(() => {
+    if (!buttonRef.current) return;
+    const observer = new window.IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setButtonShown(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(buttonRef.current);
+    return () => observer.disconnect();
+  }, [showAll, collapsing]);
+
   const krankheiten = [
     'Demenz',
     'Migräne',
@@ -148,9 +248,7 @@ function LeistungenPage() {
       gridRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
-  const visibleLeistungen = showAll
-    ? leistungenData
-    : leistungenData.slice(0, 4);
+
   return (
     <div
       className='leistungen-page'
@@ -260,68 +358,88 @@ function LeistungenPage() {
           className='leistungen-grid'
           style={{ maxWidth: 900, margin: '0 auto' }}
         >
-          {visibleLeistungen.map((leistung, idx) => (
-            <div className='leistung-box' key={idx}>
-              <img
-                src={leistung.image}
-                alt={leistung.title}
-                className='leistung-img'
-              />
-              <div className='leistung-title'>{leistung.title}</div>
-              <div className='leistung-desc'>{leistung.description}</div>
+          {visibleLeistungen.map((leistung, idx) => {
+            let boxClass = 'leistung-box';
+            if (showAll && idx >= 4 && fadeInIndexes.includes(idx)) {
+              boxClass += ' fade-in';
+            }
+            if (collapsing && idx >= 4 && fadeOutIndexes.includes(idx)) {
+              boxClass += ' fade-out';
+            }
+            // --- Slide-in animation ---
+            boxClass += ' slide-in-left';
+            if (cardShown[idx]) boxClass += ' show';
+            return (
               <div
-                style={{
-                  display: 'flex',
-                  gap: '0.7rem',
-                  justifyContent: 'center',
-                  marginTop: 'auto',
+                className={boxClass}
+                key={idx}
+                ref={(el) => {
+                  cardRefs.current[idx] = el;
                 }}
               >
-                {leistung.available.map((ort) => (
-                  <div
-                    className='leistung-available'
-                    key={ort}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      minWidth: 0,
-                    }}
-                  >
-                    <span
+                <img
+                  src={leistung.image}
+                  alt={leistung.title}
+                  className='leistung-img'
+                />
+                <div className='leistung-title'>{leistung.title}</div>
+                <div className='leistung-desc'>{leistung.description}</div>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '0.7rem',
+                    justifyContent: 'center',
+                    marginTop: 'auto',
+                  }}
+                >
+                  {leistung.available.map((ort) => (
+                    <div
+                      className='leistung-available'
+                      key={ort}
                       style={{
-                        color: 'var(--blue-600)',
-                        fontSize: '1.2em',
                         display: 'flex',
                         alignItems: 'center',
+                        gap: '0.5rem',
+                        minWidth: 0,
                       }}
                     >
-                      <svg
-                        width='18'
-                        height='18'
-                        viewBox='0 0 20 20'
-                        fill='none'
-                        stroke='currentColor'
-                        strokeWidth='2.2'
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
+                      <span
+                        style={{
+                          color: 'var(--blue-600)',
+                          fontSize: '1.2em',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
                       >
-                        <polyline points='4 11 8 15 16 6' />
-                      </svg>
-                    </span>
-                    <span style={{ whiteSpace: 'nowrap', fontWeight: 600 }}>
-                      {ort}
-                    </span>
-                  </div>
-                ))}
+                        <svg
+                          width='18'
+                          height='18'
+                          viewBox='0 0 20 20'
+                          fill='none'
+                          stroke='currentColor'
+                          strokeWidth='2.2'
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                        >
+                          <polyline points='4 11 8 15 16 6' />
+                        </svg>
+                      </span>
+                      <span style={{ whiteSpace: 'nowrap', fontWeight: 600 }}>
+                        {ort}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
         {leistungenData.length > 4 && (
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
             <button
-              className='show-more-leistungen-btn'
+              className={`show-more-leistungen-btn slide-in-left${
+                buttonShown ? ' show' : ''
+              }`}
               style={{
                 padding: '0.7rem 2.2rem',
                 fontSize: '1.08rem',
@@ -335,9 +453,19 @@ function LeistungenPage() {
                 letterSpacing: '0.02em',
                 transition: 'background 0.2s',
               }}
-              onClick={() => setShowAll((v) => !v)}
+              onClick={() => {
+                if (showAll) {
+                  setCollapsing(true);
+                } else {
+                  setShowAll(true);
+                }
+              }}
+              disabled={collapsing}
+              ref={buttonRef}
             >
-              {showAll ? 'Weniger anzeigen' : 'Weitere Leistungen'}
+              {showAll || collapsing
+                ? 'Weniger anzeigen'
+                : 'Weitere Leistungen'}
             </button>
           </div>
         )}
@@ -349,6 +477,8 @@ function LeistungenPage() {
 // Remove the old fixed logo div and header bar, replace with a single header
 function MainHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  // Only use location for scroll-to-top logic
+  const location = useLocation();
   // Lock scroll when menu is open
   useEffect(() => {
     if (menuOpen) {
@@ -361,10 +491,28 @@ function MainHeader() {
     };
   }, [menuOpen]);
 
+  // Handler for logo click
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Let <Link> handle navigation, but also scroll to top after navigation
+      // (React Router v6+ will remount MainPage, but for safety)
+      // No need to call navigate here, <Link> will do it
+    }
+  };
+
   return (
     <header className='main-header-bar'>
       <Link to='/'>
-        <img src={logo} alt='Alkadi Logo' className='main-header-logo' />
+        <img
+          src={logo}
+          alt='Alkadi Logo'
+          className='main-header-logo'
+          onClick={handleLogoClick}
+          style={{ cursor: 'pointer' }}
+        />
       </Link>
       {/* Burger menu only on mobile */}
       <button
@@ -412,6 +560,53 @@ function MainPage() {
     }
   };
   const navigate = useNavigate();
+
+  // Animation state for slide-in
+  const [showRecklinghausenImg, setShowRecklinghausenImg] = useState(false);
+  const [showRecklinghausenText, setShowRecklinghausenText] = useState(false);
+  const [showOerImg, setShowOerImg] = useState(false);
+  const [showOerText, setShowOerText] = useState(false);
+
+  // Refs for intersection observer
+  const recklinghausenImgRef = useRef<HTMLImageElement>(
+    null
+  ) as React.RefObject<HTMLImageElement>;
+  const recklinghausenTextRef = useRef<HTMLDivElement>(
+    null
+  ) as React.RefObject<HTMLDivElement>;
+  const oerImgRef = useRef<HTMLImageElement>(
+    null
+  ) as React.RefObject<HTMLImageElement>;
+  const oerTextRef = useRef<HTMLDivElement>(
+    null
+  ) as React.RefObject<HTMLDivElement>;
+
+  useEffect(() => {
+    // Helper to observe and trigger animation
+    function observeAndSet<T extends Element>(
+      ref: React.RefObject<T>,
+      setter: React.Dispatch<React.SetStateAction<boolean>>,
+      delay: number = 0
+    ) {
+      if (!ref.current) return;
+      const observer = new window.IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setTimeout(() => setter(true), delay);
+              observer.disconnect();
+            }
+          });
+        },
+        { threshold: 0.3 }
+      );
+      observer.observe(ref.current);
+    }
+    observeAndSet(recklinghausenImgRef, setShowRecklinghausenImg);
+    observeAndSet(recklinghausenTextRef, setShowRecklinghausenText, 200);
+    observeAndSet(oerImgRef, setShowOerImg);
+    observeAndSet(oerTextRef, setShowOerText, 200);
+  }, []);
 
   return (
     <>
@@ -480,11 +675,19 @@ function MainPage() {
       <section id='recklinghausen' className='standort-section'>
         <div className='standort-content'>
           <img
+            ref={recklinghausenImgRef}
             src={arztBild}
             alt='Recklinghausen Arzt'
-            className='standort-img'
+            className={`standort-img slide-in-left${
+              showRecklinghausenImg ? ' show' : ''
+            }`}
           />
-          <div className='standort-info'>
+          <div
+            ref={recklinghausenTextRef}
+            className={`standort-info slide-in-left-text${
+              showRecklinghausenText ? ' show' : ''
+            }`}
+          >
             <div className='standort-title'>Recklinghausen</div>
             <div className='standort-doctor' style={{ marginBottom: '0.3em' }}>
               Dr. med. Assad Al Kadi
@@ -539,11 +742,17 @@ function MainPage() {
       <section id='oer-erkenschwick' className='standort-section'>
         <div className='standort-content'>
           <img
+            ref={oerImgRef}
             src={arztBild}
             alt='Oer-Erkenschwick Arzt'
-            className='standort-img'
+            className={`standort-img slide-in-left${showOerImg ? ' show' : ''}`}
           />
-          <div className='standort-info'>
+          <div
+            ref={oerTextRef}
+            className={`standort-info slide-in-left-text${
+              showOerText ? ' show' : ''
+            }`}
+          >
             <div className='standort-title'>Oer-Erkenschwick</div>
             <div className='standort-doctor' style={{ marginBottom: '0.3em' }}>
               Dr. med. Hazem Al Kadi
